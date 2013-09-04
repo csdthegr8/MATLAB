@@ -1,4 +1,4 @@
-function [I_out] = flood_fill (I_in, seed_i,seed_j, B, fill_value, adj_scheme)
+function [I_out] = flood_fill (I, seed_i,seed_j, B, fill_value, adj_scheme)
 
 %  usage:  I_out = flood_fill (I, B, fill_value)
 %  I_out : Flood fill of image I will fill_value.
@@ -11,16 +11,13 @@ function [I_out] = flood_fill (I_in, seed_i,seed_j, B, fill_value, adj_scheme)
     assert(adj_scheme == 4 || adj_scheme == 8, ['The adjacency has be ' ...
                         'either 4 or 8']);
     
-    I_size = size(I_in);
+    I_size = size(I);
     I_rows = I_size(1);
     I_cols = I_size(2);
-    
-    I = -ones(I_rows,I_cols);
     
     if B(seed_i,seed_j) == 1
         to_visit = [seed_i,seed_j];
         I(seed_i,seed_j) = fill_value;
-        pixpros = 0;
         while ~isempty(to_visit)
             cur_pos = to_visit(1,:);
             to_visit(1,:) = [];
@@ -33,14 +30,13 @@ function [I_out] = flood_fill (I_in, seed_i,seed_j, B, fill_value, adj_scheme)
                     next_y = pos_neighbors(i,2);
                     % Add a previously unvisited neighboring pixel to the
                     % list and mark the pixels as visited (setting to zero)
-                    if B(next_x,next_y) == 1 && I(next_x,next_y) < 0
+                    if B(next_x,next_y) == 1 && I(next_x,next_y) <= 0
                         to_visit(end+1,:) = [next_x, next_y];
                         I(next_x,next_y) = fill_value;
                     elseif I(next_x,next_y) ~= fill_value
                         I(next_x,next_y) = 0;
                     end
                 end
-                pixpros = pixpros+1;
             end
             
         end
@@ -86,9 +82,3 @@ function [pos_neighbors] = find_neighbors (I_rows,I_cols, x, y, adj_scheme)
         end
     end
 end
-
-
-                % condition = I(possible_pos_neighbors) < 0 && ;
-                % to_visit = unique([ to_visit possible_pos_neighbors(condition) ]);
-                % fprintf(1,'Adding pixels below to the to_visit array\n');
-                % disp(possible_pos_neighbors(condition));
