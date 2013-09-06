@@ -9,13 +9,12 @@ function [I_out] = visualize_cc (I, labels, start_label, end_label, colors)
         [i,j] = ind2sub(size(I),find(I == l));
         thiscolor = colors(1);
         colors(1) = [];
-        colors(end+1) = thiscolor
+        colors(end+1) = thiscolor;
         for k=1:length(i)
             I_out(i(k),j(k),1) = thiscolor.green;
             I_out(i(k),j(k),2) = thiscolor.blue;
             I_out(i(k),j(k),3) = thiscolor.red;
         end
     end
-    
 end
 

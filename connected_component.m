@@ -21,7 +21,7 @@ while ~isempty(indexes)
     indexes(1) = [];
     [i,j] = ind2sub(size(B), this_index);
     if (I(i,j) < 0) 
-        I = flood_fill(I,i,j,B,fill_value,4);
+        I = new_flood_fill(I,i,j,B,fill_value,4);
         labels(end+1) = fill_value;
         fill_value = fill_value + 10;
     end
@@ -29,5 +29,4 @@ end
 
 I_out = I;
 end_label = fill_value-10;
-end 
-    
+end
